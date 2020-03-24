@@ -1,0 +1,21 @@
+{
+	"name":"hrp/printers",
+	"description":"cloud printing driver",
+	"type":"library",
+	"license":"MIT",
+	"authors":[
+		{
+			"name":"houruipeng",
+			"email":"565792893@qq.com"
+		}
+	],
+	"minimum-stability":"dev",
+	"require":{
+		"php":">7.0.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"hrp\\": "src/"
+		}
+	}
+}
