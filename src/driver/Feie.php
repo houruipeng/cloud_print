@@ -32,6 +32,8 @@ class Feie implements PrinterInterface{
 	/**
 	 * [打印订单接口 Open_printMsg]
 	 *
+	 * @from http://www.feieyun.com/open/index.html?name=3
+	 *
 	 * @param string $sn 打印机编号sn
 	 * @param string $content 打印内容
 	 * @param int    $times 打印次数
@@ -59,6 +61,7 @@ class Feie implements PrinterInterface{
 
 	/**
 	 * 为某个账号添加打印机
+	 * @from http://www.feieyun.com/open/index.html?name=3
 	 *
 	 * @param array $printers
 	 * @return string

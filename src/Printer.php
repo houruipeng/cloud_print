@@ -32,30 +32,21 @@ class Printer{
 	 * 添加打印机
 	 *
 	 * @param array $printers
-	 * @return bool
-	 * @throws \Exception
+	 * @return mixed
 	 */
 	public function printerAddList(array $printers){
-		$result = $this->driver->printerAddList($printers);
-		if(!$result) throw new \Exception('call method before callable a function');
-		$res = json_decode($result, true);
-		if(isset($res['ret']) && $res['ret'] == 0){
-			if($res['data']['no']) throw new \Exception(json_encode($res['data']['no'], JSON_UNESCAPED_UNICODE));
-			return true;
-		}
-		throw new \Exception(json_encode($res, JSON_UNESCAPED_UNICODE));
+		return $this->driver->printerAddList($printers);
 	}
 
 	/**
-	 * 订单打印
+	 * 打印内容
 	 *
 	 * @param string $sn 打印机编号
 	 * @param string $content 打印内容
 	 * @param int    $times 打印次数
-	 * @return  $this
+	 * @return  mixed
 	 */
 	public function printMsg($sn, $content, $times = 1){
-		$this->result = $this->driver->printMsg($sn, $content, $times);
-		return $this;
+		return $this->driver->printMsg($sn, $content, $times);
 	}
 }
