@@ -10,7 +10,7 @@ namespace hrp;
 
 class Printer{
 
-	/** @var \hrp\driver\Feie */
+	/** @var \hrp\driver\PrinterInterface */
 	protected $driver;
 
 	private $result;
