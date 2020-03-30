@@ -49,4 +49,32 @@ class Printer{
 	public function printMsg($sn, $content, $times = 1){
 		return $this->driver->printMsg($sn, $content, $times);
 	}
+
+	/**
+	 * 字符串切割
+	 *
+	 * @param string $str 字符串
+	 * @param    int $len 字节长度
+	 * @param string $driver 驱动类
+	 * @return array
+	 */
+	public static function spliceStr($str,$len,$driver="feie"){
+		/** @var \hrp\driver\Feie $class */
+		$class = '\\hrp\\driver\\'.ucwords($driver);
+		return $class::spliceStr($str,$len);
+	}
+
+	/**
+	 * 字符串转为指定字节的长度
+	 *
+	 * @param string $str
+	 * @param int    $len
+	 * @param string $driver
+	 * @return string
+	 */
+	public static function makeLen($str,$len,$driver="feie"){
+		/** @var \hrp\driver\Feie $class */
+		$class = '\\hrp\\driver\\'.ucwords($driver);
+		return $class::makeLen($str,$len);
+	}
 }
