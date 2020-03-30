@@ -3,6 +3,9 @@
 	"description":"cloud printing driver",
 	"type":"library",
 	"license":"MIT",
+	"keywords":[
+		"飞鹅打印机","驱动","feie"
+	],
 	"authors":[
 		{
 			"name":"houruipeng",
@@ -13,7 +16,8 @@
 	"require":{
 		"php":">7.0.0",
 		"ext-mbstring":"*",
-		"ext-json":"*"
+		"ext-json":"*",
+		"ext-iconv":"*"
 	},
 	"autoload": {
 		"psr-4": {

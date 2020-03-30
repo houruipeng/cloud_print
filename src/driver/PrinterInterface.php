@@ -17,4 +17,6 @@ interface PrinterInterface{
 	public function __construct(array $config);
 	public function printMsg($sn, $content, $times);
 	public function printerAddList(array $printers);
+	public function spliceStr($str,$len);
+	public function makeLen($str,$len);
 }

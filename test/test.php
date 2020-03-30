@@ -131,9 +131,7 @@ function test($list,$A,$B,$C,$D)
 				$v_lenght = strlen($v_lenght);
 				if($v_lenght == 13) $value = $value." ";
 				$head .= $value.' '.$price.' '.$num.' '.$prices;
-				var_dump($head);
-				var_dump(mb_strwidth($head));
-				die();
+
 			}else{
 				$head .= $value.'<BR>';
 			}

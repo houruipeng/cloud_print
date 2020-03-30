@@ -31,7 +31,6 @@ class Feie implements PrinterInterface{
 
 	/**
 	 * [打印订单接口 Open_printMsg]
-	 *
 	 * @from http://www.feieyun.com/open/index.html?name=3
 	 *
 	 * @param string $sn 打印机编号sn
@@ -82,6 +81,65 @@ class Feie implements PrinterInterface{
 			return $result;
 		}
 	}
+
+	/**
+	 * @param string $str 要切割的字符串
+	 * @param int $len 每行字节长度
+	 * @return array 返回切割后的字符串,数组
+	 */
+	public function spliceStr($str, $len){
+		$blankNum = $len;//名称控制为14个字节
+		$lan = mb_strlen($str, 'utf-8');
+		$m = 0;
+		$j = 1;
+		$blankNum = $blankNum - 4;
+		$result = array();
+		$kw3 = '';
+		$tail = '';
+		for($i = 0; $i < $lan; $i++){
+			//第二层
+			$new = mb_substr($str, $m, $j, 'utf-8');
+			$j++;
+			if(mb_strwidth($new, 'utf-8') < $blankNum){
+				if($m + $j > $lan){
+					$m += $j;
+					$tail = $new;
+					$length = iconv("UTF-8", "GBK//IGNORE", $new);
+					$k = $len - strlen($length);
+					for($q = 0; $q < $k; $q++){
+						$kw3 .= ' ';
+					}
+					$tail .= $kw3;
+					break;
+				}else{
+					$next_new = mb_substr($str, $m, $j, 'utf-8');
+					if(mb_strwidth($next_new, 'utf-8') < $blankNum) continue;
+					else{
+						$m = $i + 1;
+						$result[] = $new;
+						$j = 1;
+					}
+				}
+			}
+		}
+		array_push($result, $tail);
+		return $result;
+	}
+
+	/**
+	 * @param int $len 字符串目标字节长度
+	 * @param string $str 处理的字符串
+	 * @return string 返回格式化以后的字符串
+	 */
+	public function makeLen($str,$len){
+		$repeat = $len - mb_strwidth($str, 'utf-8');
+		$kw = '';
+		for($q = 0; $q < $repeat; $q++){
+			$kw .= ' ';
+		}
+		return $str.$kw;
+	}
+
 
 	/**
 	 * 待添加的打印机格式化处理
