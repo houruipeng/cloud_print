@@ -87,7 +87,7 @@ class Feie implements PrinterInterface{
 	 * @param int $len 每行字节长度
 	 * @return array 返回切割后的字符串,数组
 	 */
-	public function spliceStr($str, $len){
+	public static function spliceStr($str, $len){
 		$blankNum = $len;//名称控制为14个字节
 		$lan = mb_strlen($str, 'utf-8');
 		$m = 0;
@@ -131,7 +131,7 @@ class Feie implements PrinterInterface{
 	 * @param string $str 处理的字符串
 	 * @return string 返回格式化以后的字符串
 	 */
-	public function makeLen($str,$len){
+	public static function makeLen($str,$len){
 		$repeat = $len - mb_strwidth($str, 'utf-8');
 		$kw = '';
 		for($q = 0; $q < $repeat; $q++){
