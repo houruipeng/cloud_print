@@ -38,5 +38,14 @@ $printer->printerAddList([
 */
 $printer->printMsg($sn, $content, $times=1);
 
+//编辑指定sn打印机的名字
+$printer->printerEdit($sn, $name);
+
+//删除打印机,多个使用数组表示
+$printer->printerDelList($snlist);
+
+//清空打印机待打印任务
+$printer->delPrinterSqs($sn);
+
 ~~~~~~~~
 

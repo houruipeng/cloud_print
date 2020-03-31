@@ -24,9 +24,13 @@ class Feie implements PrinterInterface{
 
 	private $reqTime;
 
+	/** @var \hrp\libs\HttpClient */
+	private $client;
+
 	public function __construct(array $config){
 		$this->config = $config;
 		$this->reqTime = time();
+		$this->client = new HttpClient();
 	}
 
 	/**
@@ -40,22 +44,71 @@ class Feie implements PrinterInterface{
 	 */
 	public function printMsg($sn, $content, $times){
 		$msgInfo = array(
-			'user'    => $this->user,
-			'stime'   => $this->reqTime,
-			'sig'     => $this->signature(),
 			'apiname' => 'Open_printMsg',
 			'sn'      => $sn,
 			'content' => $content,
 			'times'   => $times//打印次数
 		);
-		$client = new HttpClient();
-		if(!$client->post($msgInfo)){
-			return $client->errormsg;
-		}else{
-			//服务器返回的JSON字符串，建议要当做日志记录起来
-			$result = $client->getContent();
-			return $result;
-		}
+		return $this->execute($msgInfo);
+	}
+
+	/**
+	 * 编辑打印机信息
+	 *
+	 * @param $sn
+	 * @param $name
+	 * @return string
+	 */
+	public function printerEdit($sn, $name){
+		$msgInfo = array(
+			'apiname' => 'Open_printerEdit',
+			'sn'      => $sn,
+			'name'    => $name,
+		);
+		return $this->execute($msgInfo);
+	}
+
+	/**
+	 * 删除打印机
+	 *
+	 * @param array|string $snlist
+	 * @return string
+	 */
+	public function printerDelList($snlist){
+		//正确：
+		//
+		//  {"ok":["800000777成功","915500104成功"],"no":["800000777用户UID不匹配"]}
+		//错误：
+		//
+		//{
+		//    "msg":"参数错误 : 该帐号未注册.",
+		//    "ret":-2,
+		//    "data":null,
+		//    "serverExecutedTime":37
+		//}
+		if(is_array($snlist)) $snlist = implode('-', $snlist);
+		$msgInfo = array(
+			'apiname' => 'Open_printerDelList',
+			'snlist'  => $snlist,
+
+		);
+		return $this->execute($msgInfo);
+	}
+
+	/**
+	 * 清空打印机待打印任务
+	 *
+	 * @param $sn
+	 * @return string
+	 */
+	public function delPrinterSqs($sn)
+	{
+		$msgInfo = array(
+			'apiname' => 'Open_delPrinterSqs',
+			'sn'  => $sn,
+
+		);
+		return $this->execute($msgInfo);
 	}
 
 	/**
@@ -67,24 +120,37 @@ class Feie implements PrinterInterface{
 	 */
 	public function printerAddList(array $printers){
 		$msgInfo = array(
-			'user'           => $this->user,
-			'stime'          => $this->reqTime,
-			'sig'            => $this->signature(),
 			'apiname'        => 'Open_printerAddlist',
 			'printerContent' => $this->formatterPrinters($printers),
 		);
-		$client = new HttpClient();
-		if(!$client->post($msgInfo)){
-			return $client->errormsg;
+		return $this->execute($msgInfo);
+	}
+
+	/**
+	 * 执行请求
+	 *
+	 * @param array $param
+	 * @param bool  $use_default
+	 * @return string
+	 */
+	private function execute(array $param, bool $use_default = true){
+		$defaultParam = [
+			'user'  => $this->user,
+			'stime' => $this->reqTime,
+			'sig'   => $this->signature(),
+		];
+		$use_default === true && $param = array_merge($defaultParam, $param);
+		if(!$this->client->post($param)){
+			return $this->client->errormsg;
 		}else{
-			$result = $client->getContent();
+			$result = $this->client->getContent();
 			return $result;
 		}
 	}
 
 	/**
 	 * @param string $str 要切割的字符串
-	 * @param int $len 每行字节长度
+	 * @param int    $len 每行字节长度
 	 * @return array 返回切割后的字符串,数组
 	 */
 	public static function spliceStr($str, $len){
@@ -127,11 +193,11 @@ class Feie implements PrinterInterface{
 	}
 
 	/**
-	 * @param int $len 字符串目标字节长度
+	 * @param int    $len 字符串目标字节长度
 	 * @param string $str 处理的字符串
 	 * @return string 返回格式化以后的字符串
 	 */
-	public static function makeLen($str,$len){
+	public static function makeLen($str, $len){
 		$repeat = $len - mb_strwidth($str, 'utf-8');
 		$kw = '';
 		for($q = 0; $q < $repeat; $q++){
@@ -139,7 +205,6 @@ class Feie implements PrinterInterface{
 		}
 		return $str.$kw;
 	}
-
 
 	/**
 	 * 待添加的打印机格式化处理

@@ -18,11 +18,6 @@ $config = [
 $sn = '#############';
 $key = '###########';
 
-$class = '\\hrp\\driver\\'.ucwords("feie");
-$res=$class::makeLen('123',5);
-var_dump($res);
-die();
-
 $printer = new Printer('feie', $config);
 
 //打印机添加,二维数组,每一个数组表示一个打印机 [sn(编号),key(开发者key),mark(选填,备注),number(选填,流量卡)]
