@@ -51,6 +51,37 @@ class Printer{
 	}
 
 	/**
+	 * 编辑打印机
+	 *
+	 * @param $sn
+	 * @param $name
+	 * @return mixed
+	 */
+	public function printerEdit($sn, $name){
+		return $this->driver->printerEdit($sn,$name);
+	}
+
+	/**
+	 * 删除打印机
+	 *
+	 * @param array|string $snlist
+	 * @return mixed
+	 */
+	public function printerDelList($snlist){
+		return $this->driver->printerDelList($snlist);
+	}
+
+	/**
+	 * 清空打印任务
+	 *
+	 * @param $sn
+	 * @return mixed
+	 */
+	public function delPrinterSqs($sn){
+		return $this->driver->delPrinterSqs($sn);
+	}
+
+	/**
 	 * 字符串切割
 	 *
 	 * @param string $str 字符串
