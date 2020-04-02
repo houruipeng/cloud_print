@@ -26,7 +26,7 @@ $printer = new Printer($driverType, $config);
 * 二维数组,每一个数组表示一个打印机 [sn(编号),key(开发者key),mark(选填,备注),number(选填,流量卡)]
 */
 $printer->printerAddList([
-	['sn' => $sn, 'key' => $key, 'mark' => 'this is mark', 'number' => 'this is number'],
+	['sn' => $sn, 'key' => $key, 'name' => 'this is print name', 'number' => 'this is number'],
 ]);
 
 

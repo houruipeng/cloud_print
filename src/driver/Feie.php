@@ -216,7 +216,7 @@ class Feie implements PrinterInterface{
 		$tmp = '';
 		foreach($printers as $printer){
 			$tmp .= '\n'.$printer['sn'].'#'.$printer['key'];
-			isset($printer['mark']) && $tmp .= '#'.$printer['mark'];
+			isset($printer['name']) && $tmp .= '#'.$printer['name'];
 			isset($printer['number']) && $tmp .= '#'.$printer['number'];
 		}
 		return substr($tmp, 2);
